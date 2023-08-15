@@ -1,11 +1,9 @@
 
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:photosharingapp/models/posts.dart';
 import 'package:photosharingapp/providers/user_provider.dart';
 import 'package:http/http.dart' as http;
 
@@ -78,7 +76,7 @@ class _UploadPostState extends ConsumerState<UploadPost>{
               request.fields['caption']=caption.text;
               request.fields['userName']=ref.read(userProvider.notifier).getUser();
               request.files.add(await http.MultipartFile.fromPath("post", image!.path),);
-              var response=await request.send();
+              var _=await request.send();
               widget.gotoHome();
             }, child: Text("post",style: GoogleFonts.ptSansNarrow(),))
           ],
