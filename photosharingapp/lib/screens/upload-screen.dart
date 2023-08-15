@@ -71,6 +71,7 @@ class _UploadPostState extends ConsumerState<UploadPost>{
             ),
            const  SizedBox(height: 20,),
             ElevatedButton(onPressed: ()async{
+
               //add logic for posting afterwards...
               var request=http.MultipartRequest('POST',Uri.parse("http://192.168.1.7:6000/addpost"));
               request.fields['caption']=caption.text;
