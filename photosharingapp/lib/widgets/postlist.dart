@@ -4,7 +4,6 @@
 import 'package:flutter/material.dart';
 import 'package:photosharingapp/models/posts.dart';
 import 'package:photosharingapp/widgets/post-view.dart';
-import 'package:photosharingapp/screens/home-screen.dart';
 
 class PostList extends StatelessWidget{
   const PostList({super.key,required this.posts});

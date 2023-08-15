@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:photosharingapp/data/post_data.dart';
 import 'package:photosharingapp/models/posts.dart';
 import 'package:photosharingapp/providers/user_provider.dart';
 import 'package:http/http.dart' as http;
@@ -80,7 +79,6 @@ class _UploadPostState extends ConsumerState<UploadPost>{
               request.fields['userName']=ref.read(userProvider.notifier).getUser();
               request.files.add(await http.MultipartFile.fromPath("post", image!.path),);
               var response=await request.send();
-              //posts.add(Post(username: ref.read(userProvider.notifier).getUser(), postUrl: "assets/photo.png", likes: 0, caption: caption.text,id:"123"));
               widget.gotoHome();
             }, child: Text("post",style: GoogleFonts.ptSansNarrow(),))
           ],

@@ -3,20 +3,21 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photosharingapp/models/posts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:photosharingapp/providers/user_provider.dart';
 
-class PostView extends StatefulWidget{
+class PostView extends ConsumerStatefulWidget{
   const PostView({super.key,required this.post});
   final Post post;
 
   @override
-  State<PostView> createState() => _PostViewState();
+  ConsumerState<PostView> createState() => _PostViewState();
 }
 
-class _PostViewState extends State<PostView> {
-  bool liked=false;
+class _PostViewState extends ConsumerState<PostView> {
   Widget build(BuildContext context){
     return Container(
       margin: const EdgeInsets.symmetric(horizontal:0,vertical: 20 ),
@@ -37,30 +38,30 @@ class _PostViewState extends State<PostView> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
         IconButton(onPressed: (){
-          if(!liked){
+          if(!widget.post.liked){
           setState(() {
             http.post(Uri.parse("http://192.168.1.7:6000/likepost"),body: jsonEncode({
-              "id":widget.post.id
+              "id":widget.post.id,
+              "userName":ref.read(userProvider.notifier).getUser()
             }),headers: {
               "Content-Type":"application/json"
             });
             widget.post.addLike();
-            liked=true;
           });
           }
           else{
             setState(() {
               http.post(Uri.parse("http://192.168.1.7:6000/dislike"),
               body:jsonEncode({
-                "id":widget.post.id
+                "id":widget.post.id,
+                "userName":ref.read(userProvider.notifier).getUser()
               }),headers: {
                 "Content-Type":"application/json"
               });
               widget.post.removeLike();
-              liked=false;
             });
           }
-        }, icon: Icon(Icons.thumb_up,color:liked?Colors.blue:Colors.grey,)),
+        }, icon: Icon(Icons.thumb_up,color:widget.post.liked?Colors.blue:Colors.grey,)),
         Text("${widget.post.likes} likes",
         style:GoogleFonts.ptSansNarrow(
           fontSize: 16
